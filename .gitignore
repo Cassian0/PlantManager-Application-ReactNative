@@ -9,11 +9,6 @@ npm-debug.*
 *.orig.*
 web-build/
 custom.d.ts
-tsconfig.json
-yarn.lock
-app.json
-babel.config.js
-
 
 # macOS 
 .DS_Store
