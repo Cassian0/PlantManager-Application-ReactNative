@@ -7,6 +7,8 @@ import {
   StyleSheet
 } from 'react-native';
 
+import { useNavigation } from '@react-navigation/core';
+
 import { Button } from '../components/Button';
 
 import fonts from '../styles/fonts';
@@ -14,6 +16,12 @@ import fonts from '../styles/fonts';
 import colors from '../styles/colors';
 
 export function Comfirmation() {
+  const navigation = useNavigation();
+
+  function handleMoveOn(){
+    navigation.navigate('PlantSelect');
+  }
+
   return (
     <SafeAreaView style={styles.container}>
 
@@ -34,6 +42,7 @@ export function Comfirmation() {
         <View style={styles.footer}>
           <Button
             title='Começar'
+            onPress = {handleMoveOn}
           />
         </View>
 
