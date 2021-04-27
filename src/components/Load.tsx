@@ -10,10 +10,10 @@ export function Load(){
   return (
     <View style={styles.container}>
         <LottieView 
-        source={loadAnimation}
-        autoPlay
-        loop
-        style={styles.animation}
+          source={loadAnimation}
+          autoPlay
+          loop
+          style={styles.animation}
         />
     </View>
   )
