@@ -23,7 +23,7 @@ interface Params{
 
 const emojis = {
   hug: '🤗',
-  smile: '😀'
+  smile: '😄'
 }
 
 export function Confirmation() {

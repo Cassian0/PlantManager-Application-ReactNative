@@ -4,15 +4,17 @@ import {
   Text,
   View,
   Image,
-  FlatList
+  FlatList,
+  Alert
 } from 'react-native';
 
 import { formatDistance } from 'date-fns';
 import { pt } from 'date-fns/locale';
 
-import { PlantProps, loadPlant } from '../libs/storage';
+import { PlantProps, loadPlant, removePlant } from '../libs/storage';
 import { PlantCardSecondary } from '../components/PlantCardSecondary';
 import { Header } from '../components/Header';
+import { Load } from '../components/Load';
 
 import waterdrop from '../assets/waterdrop.png';
 import colors from '../styles/colors';
@@ -22,6 +24,32 @@ export function MyPlants() {
   const [myPlants, setMyPlants] = useState<PlantProps[]>([]);
   const [loading, setLoading] = useState(true);
   const [nextWaterd, setNextWaterd] = useState<string>();
+
+  function handleRemove(plant: PlantProps){
+      Alert.alert('Remover', `Deseja remover a ${plant.name}?`,
+        [
+            {
+              text: 'Não 🙏',
+              style: 'cancel'
+            },
+            {
+              text: 'Sim 😥',
+              onPress: async () => {
+                try {
+                  await removePlant(plant.id);
+
+                  setMyPlants((oldData) => (
+                    oldData.filter(( item ) => item.id !== plant.id)
+                  ));
+                } catch (err) {
+                  Alert.alert('Não foi possível remover 😥');
+                }
+              }
+            }
+        
+        ]);
+      
+  }
 
   useEffect(() => {
     async function loadStorageData() {
@@ -41,7 +69,10 @@ export function MyPlants() {
     }
 
     loadStorageData();
-  }, [])
+  }, []);
+
+  if(loading)
+      return <Load />
 
   return (
     <View style={styles.container}>
@@ -68,7 +99,8 @@ export function MyPlants() {
           renderItem={({ item }) => (
             <PlantCardSecondary 
               data={item}
-            />
+              handleRemove={() => {handleRemove( item )}}
+            /> 
           )}
           showsVerticalScrollIndicator={false}
         />
@@ -84,7 +116,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 30,
-    paddingTop: 50,
+    paddingTop: 20,
     backgroundColor: colors.background
   },
   spotLight: {
